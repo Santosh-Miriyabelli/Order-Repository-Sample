@@ -58,4 +58,8 @@ public class OrderController {
 		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/getANumber")
+	public int getANumber() {
+		return orderService.getANumber();
+	}
 }

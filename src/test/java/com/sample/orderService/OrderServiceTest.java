@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -18,6 +20,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
 import com.sample.orderService.entity.OrderDetails;
 import com.sample.orderService.exceptionhandler.OrderNotFoundException;
@@ -27,7 +32,11 @@ import com.sample.orderService.request.OrderRequest;
 import com.sample.orderService.response.Response;
 import com.sample.orderService.service.OrderService;
 
+@SpringBootTest
+@AutoConfigureMockMvc
 public class OrderServiceTest {
+	@Autowired
+	MockMvc mockMvc;
 	
 	@Mock
     private OrderRepo orderRepo;
@@ -41,6 +50,7 @@ public class OrderServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        System.out.println("before each testCase");
     }
 
     @Test
@@ -144,4 +154,9 @@ public class OrderServiceTest {
         assertEquals("Order not found with ID 1", exception.getMessage());
     }
 
+    @Test
+    public void testGetANumber() throws Exception {
+    	//mockMvc.perform(get("/orderservice/getANumber")) .andExpect(status().isOk()) .andExpect(content().equals(2));
+    	
+    }
 }

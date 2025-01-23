@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.sample.orderService.dao.OrderDao;
 import com.sample.orderService.entity.OrderDetails;
 import com.sample.orderService.exceptionhandler.OrderNotFoundException;
 import com.sample.orderService.exceptionhandler.ResourceNotFoundException;
@@ -27,7 +28,10 @@ public class OrderService {
 	OrderRepo  orderRepo;
 	
 	@Autowired
-	RabbitMQProducer producer;
+	OrderDao orderDao;
+	
+	//@Autowired
+	//RabbitMQProducer producer;
 	
 	 
 	
@@ -47,7 +51,7 @@ public class OrderService {
 		
 		OrderDetails os = new OrderDetails(request.getCustomerName(),request.getOrderDate(),request.getTotalAmount(),request.getStatus());
 		orderRepo.save(os);
-		producer.sendMessageToQueue("Order is added to the Cart");
+		//producer.sendMessageToQueue("Order is added to the Cart");
 		
 		return new Response(200,"order is Added with tracker id "+os.getId());
 		
@@ -88,6 +92,8 @@ public class OrderService {
 		return new Response(200,"order deleted");
 	}
 	
-	
+	public int getANumber() {
+		return orderDao.getANumber();
+	}
 	
 }
